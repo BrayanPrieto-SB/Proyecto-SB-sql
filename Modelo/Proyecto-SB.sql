@@ -1,4 +1,13 @@
+
+--Privilegios en usuario SYSTEM
+--grant execute on utl_file to developer;
+--SELECT * FROM all_tab_privs WHERE grantee = 'PUBLIC' AND table_name = 'UTL_FILE';
+
+
+
+
 --CREACION DE TABLESPACES--
+
 
 CREATE TABLESPACE TELEFONIA_TS DATAFILE 'TELEFONIA_TS.dbf' SIZE 1024M EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
 CREATE TABLESPACE TELEFONIA_TS_IDX DATAFILE 'TELEFONIA_TS_IDX.dbf' SIZE 512M EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
@@ -75,8 +84,15 @@ CREATE TABLE LLAMADA(
     CONSTRAINT FK_LLAMADA_CLIENTE FOREIGN KEY(CLIENTE_ID) REFERENCES CLIENTE(CLIENTE_ID),
     CONSTRAINT FK_LLAMADA_ARCHIVO FOREIGN KEY(ARCHIVO_ID) REFERENCES ARCHIVO(ARCHIVO_ID)
     );
-
-
+drop index clientes_idx;
+create index clientes_idx
+ on llamada(cliente_id);
+ 
+ create index llamada_idx
+ on llamada(llamada_id);
+ 
+  create index fecha_idx
+ on llamada(fecha_inicio);
 
 CREATE TABLE PAIS (
     PAIS_ID NUMBER(8) NOT NULL,
